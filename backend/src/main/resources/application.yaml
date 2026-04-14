@@ -1,6 +1,24 @@
 spring:
   application:
     name: elevatorsystemsimulation
+  datasource:
+    url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://localhost:5432/elevator_simulation}
+    username: ${SPRING_DATASOURCE_USERNAME:elevator}
+    password: ${SPRING_DATASOURCE_PASSWORD:elevator}
+  jpa:
+    hibernate:
+      ddl-auto: update
+    open-in-view: false
+    properties:
+      hibernate:
+        jdbc:
+          time_zone: UTC
 
 server:
   port: 8080
+
+simulation:
+  floors: 12
+  elevators: 4
+  tick-millis: 1000
+  allowed-origin: ${SIMULATION_ALLOWED_ORIGIN:http://localhost:5173}

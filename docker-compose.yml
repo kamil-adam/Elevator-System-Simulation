@@ -1,0 +1,38 @@
+services:
+  postgres:
+    image: postgres:17-alpine
+    container_name: elevator-postgres
+    environment:
+      POSTGRES_DB: elevator_simulation
+      POSTGRES_USER: elevator
+      POSTGRES_PASSWORD: elevator
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+
+  backend:
+    build:
+      context: ./backend
+    container_name: elevator-backend
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/elevator_simulation
+      SPRING_DATASOURCE_USERNAME: elevator
+      SPRING_DATASOURCE_PASSWORD: elevator
+      SIMULATION_ALLOWED_ORIGIN: http://localhost:3000
+    ports:
+      - "8080:8080"
+    depends_on:
+      - postgres
+
+  frontend:
+    build:
+      context: ./frontend
+    container_name: elevator-frontend
+    ports:
+      - "3000:80"
+    depends_on:
+      - backend
+
+volumes:
+  postgres-data:
