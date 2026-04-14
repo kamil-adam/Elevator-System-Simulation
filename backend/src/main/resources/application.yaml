@@ -1,0 +1,6 @@
+spring:
+  application:
+    name: elevatorsystemsimulation
+
+server:
+  port: 8080
